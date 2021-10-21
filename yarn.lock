@@ -1848,6 +1848,13 @@ native-url@0.3.4:
   dependencies:
     querystring "^0.2.0"
 
+next-plugin-graphql@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/next-plugin-graphql/-/next-plugin-graphql-0.0.2.tgz#31625abe1cef282194063533522026010a9d6255"
+  integrity sha512-PgRqONNSF+lTyrtraNC7wJWNYq1U4v4jgIHmvTXYvdtYEz7oeuNNqk3N8mlunV2WzntpSFSe0BCdinRN25tkmQ==
+  dependencies:
+    graphql-tag "^2.10.0"
+
 next@latest:
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/next/-/next-11.1.2.tgz#527475787a9a362f1bc916962b0c0655cc05bc91"
