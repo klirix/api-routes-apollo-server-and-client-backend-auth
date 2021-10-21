@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { gql, useQuery } from '@apollo/client'
+import { initializeApollo } from '../apollo/client'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -20,7 +21,8 @@ const Index = () => {
 
   useEffect(() => {
     if (shouldRedirect) {
-      router.push('/signin')
+      console.log(data, error) // Move this check to backend
+      // router.push('/signin')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRedirect])
@@ -45,6 +47,16 @@ const Index = () => {
   }
 
   return <p>Loading...</p>
+}
+
+export async function getServerSideProps(ctx){
+  const client = initializeApollo(null, () => ctx)
+  await client.query({query: ViewerQuery})
+  return {
+    props: {
+      initialApolloState: client.extract()
+    }
+  }
 }
 
 export default Index

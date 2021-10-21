@@ -2,13 +2,14 @@ import { useMemo } from 'react'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import merge from 'deepmerge'
 
-let apolloClient
+let apolloClient = null
 
-function createIsomorphLink() {
+function createIsomorphLink(context) {
   if (typeof window === 'undefined') {
     const { SchemaLink } = require('@apollo/client/link/schema')
     const { schema } = require('./schema')
-    return new SchemaLink({ schema })
+    console.log(context)
+    return new SchemaLink({ schema, context })
   } else {
     const { HttpLink } = require('@apollo/client/link/http')
     return new HttpLink({
@@ -18,16 +19,21 @@ function createIsomorphLink() {
   }
 }
 
-function createApolloClient() {
+function createApolloClient(context) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: createIsomorphLink(),
+    link: createIsomorphLink(context),
     cache: new InMemoryCache(),
   })
 }
 
-export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient()
+/**
+ * 
+ * @param {*} initialState 
+ * @returns {ApolloClient}
+ */
+export function initializeApollo(initialState = null, context = undefined) {
+  const _apolloClient = apolloClient ?? createApolloClient(context)
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // get hydrated here
